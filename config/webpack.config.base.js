@@ -7,7 +7,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin');
-const {CleanWebpackPlugin} =require('clean-webpack-plugin')
 const path = require('path');
 
 process.env.PUBLIC_URL = path.resolve(__dirname,'../public')
@@ -82,7 +81,6 @@ module.exports ={
   new ProgressBarPlugin({
     format:`:msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`
   }),
-  new CleanWebpackPlugin(),
   new FriendlyErrorsWebpackPlugin()
 ],
   optimization: {

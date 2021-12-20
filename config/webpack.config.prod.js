@@ -1,7 +1,7 @@
 const {merge} = require('webpack-merge');
-const fs = require("fs");
 const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require("copy-webpack-plugin");
+const {CleanWebpackPlugin} =require('clean-webpack-plugin')
 const baseConfig =require('./webpack.config.base')
 const path = require('path');
 module.exports= merge(baseConfig,{
@@ -35,6 +35,11 @@ module.exports= merge(baseConfig,{
 
         }},
       ],
+    }),
+    new CleanWebpackPlugin({
+      dry:false,
+      cleanOnceBeforeBuildPatterns:['../build','../package'],
+      dangerouslyAllowCleanPatternsOutsideProject:true
     }),
   ]
   })
