@@ -2,10 +2,16 @@ const {merge} = require('webpack-merge');
 const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require("copy-webpack-plugin");
 const {CleanWebpackPlugin} =require('clean-webpack-plugin')
+const nodeExternals = require('webpack-node-externals')
 const baseConfig =require('./webpack.config.base')
 const path = require('path');
-const webpack =require('webpack')
-module.exports= merge(baseConfig,{ 
+module.exports= merge(baseConfig,{
+  entry:'./electron/main.js',
+  output:{
+    path: path.resolve(__dirname, '../build_electron'),
+    filename: '[name].js'
+  },
+    target:'electron-main',
     mode:'production',
     performance: {
       hints: false
@@ -22,28 +28,20 @@ module.exports= merge(baseConfig,{
         }
       ]
     },
+    externals: [nodeExternals()],
+    node: {
+      __dirname: false,
+      __filename: false
+    },
     plugins:[
       new Dotenv({
       path:path.resolve(__dirname,'../.env.production')
     }),
-    new CopyPlugin({
-      patterns: [
-        { from: "public", to: "" ,filter:async (resourcePath)=>{
-          if(resourcePath.lastIndexOf('index.html')!==-1){
-            return false
-          }   
-          return true;
-
-        }},
-      ],
-    }),
     new CleanWebpackPlugin({
       dry:false,
-      cleanOnceBeforeBuildPatterns:['../build','../package'],
+      cleanOnceBeforeBuildPatterns:['../build_electron'],
       dangerouslyAllowCleanPatternsOutsideProject:true
     }),
-    new webpack.IgnorePlugin({
-      resourceRegExp: new RegExp("^(fs|ipc|path)$"),
-    })
+
   ]
   })

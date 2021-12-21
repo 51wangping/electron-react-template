@@ -10,7 +10,6 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js')
     }
   })
-  console.log(process.env.ELECTRON_IS_DEV);
   isDev ?
   win.loadURL('http://localhost:9000')
   : win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)

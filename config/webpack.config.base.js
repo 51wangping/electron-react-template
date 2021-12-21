@@ -14,7 +14,7 @@ module.exports ={
   entry:'./index.tsx',
   output: {
     path: path.resolve(__dirname, '../build'),
-    filename: '[name][hash].js',
+    filename: '[name].js',
   },
   stats: "minimal",
   devtool:'source-map',

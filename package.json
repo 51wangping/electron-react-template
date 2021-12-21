@@ -2,15 +2,16 @@
   "name": "electron-react",
   "version": "1.0.0",
   "description": "",
-  "main": "electron/main.js",
+  "main": "./build_electron/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config config/webpack.config.js --open",
     "build": "webpack --config config/webpack.config.prod.js",
+    "build:electron": "webpack --config config/webpack.config.electron.js",
     "electron": "concurrently \"npm run start \" \"wait-on http://localhost:9000 && electron electron/main.js\"",
     "pack": "electron-builder --dir",
-    "dev:win64": "npm run build && electron-builder --windows --x64",
-    "dev:macArm": "npm run build && electron-builder --mac --arm64"
+    "dev:win64": "npm run build && npm run build:electron && electron-builder --windows --x64",
+    "dev:macArm": "npm run build && npm run build:electron && electron-builder --mac --arm64"
   },
   "author": "",
   "license": "ISC",
@@ -59,7 +60,8 @@
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.6.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
     "electron-is-dev": "^1.2.0",
@@ -85,13 +87,15 @@
     "files": [
       "electron/**",
       "build/**/*",
+      "build_electron/**",
       "./index.tsx",
       "node_modules/**/*"
     ],
     "directories": {
       "buildResources": "./public",
       "output": "./package"
-    }
+    },
+    "extends": null
   },
   "postinstall": "electron-builder install-app-deps"
 }
