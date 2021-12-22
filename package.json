@@ -5,7 +5,7 @@
   "main": "./build_electron/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --config config/webpack.config.dev.js --open",
+    "start": "webpack serve --config config/webpack.config.dev.js --hot",
     "build": "webpack --config config/webpack.config.prod.js",
     "build:electron": "webpack --config config/webpack.config.electron.js",
     "electron": "concurrently \"npm run start \" \"wait-on http://localhost:9000 && electron electron/main.js\"",
@@ -38,6 +38,7 @@
     "dotenv-webpack": "^7.0.3",
     "electron": "^16.0.4",
     "electron-builder": "^22.14.5",
+    "electron-reloader": "^1.2.1",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^7.0.0",
@@ -65,7 +66,8 @@
   "dependencies": {
     "electron-is-dev": "^1.2.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hot-loader": "^4.13.0"
   },
   "build": {
     "productName": "你好世界",
