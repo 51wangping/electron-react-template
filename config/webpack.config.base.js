@@ -1,11 +1,9 @@
 
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const chalk =require('chalk')
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 
@@ -78,9 +76,6 @@ module.exports ={
   }),
   new MiniCssExtractPlugin(),
   new ESLintPlugin(),
-  new ProgressBarPlugin({
-    format:`:msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`
-  }),
   new FriendlyErrorsWebpackPlugin()
 ],
   optimization: {

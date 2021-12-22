@@ -1,6 +1,6 @@
 const {merge} = require('webpack-merge');
 const Dotenv = require('dotenv-webpack');
-const CopyPlugin = require("copy-webpack-plugin");
+const WebpackBar = require('webpackbar');
 const {CleanWebpackPlugin} =require('clean-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
 const baseConfig =require('./webpack.config.base')
@@ -40,8 +40,9 @@ module.exports= merge(baseConfig,{
     new CleanWebpackPlugin({
       dry:false,
       cleanOnceBeforeBuildPatterns:['../build_electron'],
+      cleanAfterEveryBuildPatterns:['../build_electron/index.html'],
       dangerouslyAllowCleanPatternsOutsideProject:true
     }),
-
+   new WebpackBar({name:'主进程',color:'red'}),
   ]
   })

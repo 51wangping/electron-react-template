@@ -5,6 +5,7 @@ const {CleanWebpackPlugin} =require('clean-webpack-plugin')
 const baseConfig =require('./webpack.config.base')
 const path = require('path');
 const webpack =require('webpack')
+const WebpackBar = require('webpackbar');
 module.exports= merge(baseConfig,{ 
     mode:'production',
     performance: {
@@ -22,10 +23,12 @@ module.exports= merge(baseConfig,{
         }
       ]
     },
+    target:'electron-renderer',
     plugins:[
       new Dotenv({
       path:path.resolve(__dirname,'../.env.production')
     }),
+    new WebpackBar({name:'渲染进程'}),
     new CopyPlugin({
       patterns: [
         { from: "public", to: "" ,filter:async (resourcePath)=>{
