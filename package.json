@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve --config config/webpack.config.dev.js --hot",
     "build": "webpack --config config/webpack.config.prod.js",
-    "build:electron": "webpack --config config/webpack.config.electron.js",
+    "build:electron": "webpack --config config/webpack.config.electron.js && webpack --config config/webpack.config.preload.js",
     "electron": "concurrently \"npm run start \" \"wait-on http://localhost:9000 && electron electron/main.js\"",
     "pack": "electron-builder --dir",
     "dev:win64": "npm run build && npm run build:electron && electron-builder --windows --x64",

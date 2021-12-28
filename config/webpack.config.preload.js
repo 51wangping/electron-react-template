@@ -6,13 +6,12 @@ const nodeExternals = require('webpack-node-externals')
 const baseConfig =require('./webpack.config.base')
 const path = require('path');
 module.exports= merge(baseConfig,{
-  entry:'./electron/main.js',
+  entry:'./electron/preload.js',
   output:{
     path: path.resolve(__dirname, '../build_electron'),
-    clean:false,
-    filename: 'main.js'
+    filename: 'preload.js'
   },
-    target:'electron-main',
+    target:'electron-preload',
     mode:'production',
     performance: {
       hints: false
@@ -26,12 +25,6 @@ module.exports= merge(baseConfig,{
     plugins:[
       new Dotenv({
       path:path.resolve(__dirname,'../.env.production')
-    }),
-    new CleanWebpackPlugin({
-      dry:false,
-      cleanOnceBeforeBuildPatterns:['../build_electron'],
-      cleanAfterEveryBuildPatterns:['../build_electron/index.html'],
-      dangerouslyAllowCleanPatternsOutsideProject:true
     }),
    new WebpackBar({name:'主进程',color:'red'}),
   ]

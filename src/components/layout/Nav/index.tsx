@@ -4,6 +4,6 @@ const Nav = () => {
   const [count, setstate] = useState(1);
   console.log(2222);
 
-  return <div>消息</div>;
+  return <div>消 息</div>;
 };
 export default Nav;

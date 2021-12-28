@@ -7,6 +7,7 @@ const path = require('path');
 const webpack =require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const WebpackBar = require('webpackbar');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports= merge(baseConfig,{ 
     mode:'production',
     performance: {
@@ -46,6 +47,9 @@ module.exports= merge(baseConfig,{
       dry:false,
       cleanOnceBeforeBuildPatterns:['../build','../package'],
       dangerouslyAllowCleanPatternsOutsideProject:true
+    }),
+    new HtmlWebpackPlugin({
+      template:path.resolve(__dirname,'../public/index.html')
     }),
     new webpack.IgnorePlugin({
       resourceRegExp: new RegExp("^(fs|ipc|path)$"),

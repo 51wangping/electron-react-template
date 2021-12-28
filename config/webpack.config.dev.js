@@ -1,7 +1,8 @@
 const {merge} = require('webpack-merge');
-const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const baseConfig =require('./webpack.config.base')
+const path =require('path')
 const WebpackBar = require('webpackbar');
 module.exports= merge(baseConfig,{
     mode:'development',
@@ -23,6 +24,9 @@ module.exports= merge(baseConfig,{
     cache:true,
     plugins:[
       new Dotenv(),
+      new HtmlWebpackPlugin({
+        template:path.resolve(__dirname,'../public/index.html')
+      }),
       new WebpackBar({name:'渲染进程'}),
     ],
     optimization:{

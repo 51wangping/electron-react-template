@@ -1,6 +1,5 @@
 
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
@@ -88,12 +87,17 @@ module.exports ={
             loader:'less-loader',
           }
         ],
-    }
+    },
+    {
+      test:/\.(jpg|png|gif|bmp|jpeg|ico)$/ ,
+      use:['url-loader'],
+      generator:{
+        filename:'static/[name].[ext]'
+      }
+     }
   ],
   },
-  plugins: [new HtmlWebpackPlugin({
-    template:path.resolve(__dirname,'../public/index.html')
-  }),
+  plugins: [
   new MiniCssExtractPlugin(),
   new ESLintPlugin(),
   new FriendlyErrorsWebpackPlugin()
