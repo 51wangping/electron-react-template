@@ -13,12 +13,12 @@ function createWindow () {
       contextIsolation: false,
     }
   })
-  if(isDev){
-    try {
-        require('electron-reloader')(module, {});
-    } catch (_) { }
+//   if(isDev){
+//     try {
+//         require('electron-reloader')(module, {});
+//     } catch (_) { }
 
-}
+// }
   isDev ?
   win.loadURL('http://localhost:9000')
   : win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)

@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
-
+const lessModuleRegex = /\.module\.less$/
 process.env.PUBLIC_URL = path.resolve(__dirname,'../public')
 module.exports ={
   entry:'./index.tsx',
@@ -18,7 +18,7 @@ module.exports ={
   devtool:'source-map',
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json",'.less','.css']
 },
   module:{
     rules: [
@@ -63,10 +63,30 @@ module.exports ={
     },
     {
       test: /\.less$/i,
+      exclude:lessModuleRegex,
         use: [
           'style-loader',
-          'css-loader',
-          'less-loader',
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader:'less-loader',
+          }
+        ],
+    },
+    {
+      test: lessModuleRegex,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options:{
+              modules:true
+            }
+          },
+          {
+            loader:'less-loader',
+          }
         ],
     }
   ],

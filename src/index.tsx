@@ -1,5 +1,15 @@
-import './index.less';
+import styles from './index.module.less';
+import Nav from './components/layout/Nav/index';
+import TitleBar from './components/layout/TitleBar/index';
+import { hot } from 'react-hot-loader/root';
 const app = () => {
-  return <h1>helloworld</h1>;
+  return (
+    <div className={styles.app}>
+      <TitleBar />
+      <div className={styles.content}>
+        <Nav />
+      </div>
+    </div>
+  );
 };
-export default app;
+export default hot(app);

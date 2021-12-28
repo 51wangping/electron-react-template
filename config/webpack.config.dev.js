@@ -3,22 +3,19 @@ const path = require('path');
 const Dotenv = require('dotenv-webpack');
 const baseConfig =require('./webpack.config.base')
 const WebpackBar = require('webpackbar');
-const nodeExternals = require('webpack-node-externals')
 module.exports= merge(baseConfig,{
     mode:'development',
+    entry:['react-hot-loader/patch','./index.tsx'],
     devServer: {
-      historyApiFallback:{
-        index:'./index.html'
-      },
       static: { 
-        directory: path.join(__dirname, '../public'),
-      },
+        // directory: path.join(__dirname, '../public'),
+       publicPath:'http://localhost:9000/',
+      }, 
       compress: true,
       hot:true,
       port: 9000,
     },
     target:'electron-renderer',
-    externals: [nodeExternals()],
     node: {
       __dirname: false,
       __filename: false
