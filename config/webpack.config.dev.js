@@ -21,7 +21,14 @@ module.exports= merge(baseConfig,{
       __dirname: false,
       __filename: false
     },
-    cache:true,
+    cache: {
+      // 磁盘存储
+      type: "filesystem",
+      buildDependencies: {
+        // 当配置修改时，缓存失效
+        config: [__filename]
+      }
+    },
     plugins:[
       new Dotenv(),
       new HtmlWebpackPlugin({
