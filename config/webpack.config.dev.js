@@ -32,6 +32,7 @@ module.exports= merge(baseConfig,{
     plugins:[
       new Dotenv(),
       new HtmlWebpackPlugin({
+        title: 'Electron React Template',
         template:path.resolve(__dirname,'../public/index.html')
       }),
       new WebpackBar({name:'渲染进程'}),
