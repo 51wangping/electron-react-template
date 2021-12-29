@@ -1,8 +1,5 @@
 
 const FriendlyErrorsWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const lessModuleRegex = /\.module\.less$/
@@ -11,36 +8,42 @@ module.exports ={
   entry:'./index.tsx',
   output: {
     path: path.resolve(__dirname, '../build'),
-    filename: '[name].js',
+    filename: '[name][contenthash:10].js',
   },
   stats: "minimal",
-  devtool:'source-map',
+  devtool:'cheap-source-map',
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
+    mainFields: ['jsnext:main', 'module','browser', 'main'],
     extensions: [".ts", ".tsx", ".js", ".json",'.less','.css']
 },
   module:{
     rules: [
-      {
-        test: /\.tsx?$/, 
-        use:[ 'ts-loader' ],
-        exclude:  /node_modules/,
-      },
     {
-      test: /\.m?js$/,
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
       exclude:  /node_modules/,
-      enforce: "pre",
+       enforce: "pre",
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ["@babel/preset-react",'@babel/preset-env'],
-          plugins:["@babel/plugin-transform-runtime","@babel/plugin-syntax-jsx"]
-        }
+          cacheDirectory: true,
+          cacheCompression: false,
+          sourceMaps: true,
+          inputSourceMap: true,
+          presets: [["@babel/preset-react"],
+          ['@babel/preset-env',{
+            useBuiltIns:'usage',
+            corejs:{
+              version:2
+            },
+          }],['@babel/preset-typescript']],
+          plugins:["@babel/plugin-transform-runtime","@babel/plugin-syntax-jsx"],
+        },
       }
     },
     {
       test: /\.css$/i,
-      use: [MiniCssExtractPlugin.loader,"style-loader", "css-loader",{
+      use: ["style-loader", "css-loader",{
           loader: "postcss-loader",
           options: {
             postcssOptions: {
@@ -98,12 +101,7 @@ module.exports ={
   ],
   },
   plugins: [
-  new MiniCssExtractPlugin(),
   new ESLintPlugin(),
   new FriendlyErrorsWebpackPlugin()
 ],
-  optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin(),new CssMinimizerPlugin()],
-  },
 }
