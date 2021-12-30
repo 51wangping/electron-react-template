@@ -23,7 +23,7 @@ module.exports ={
       test: /\.(js|mjs|jsx|ts|tsx)$/,
       exclude:  /node_modules/,
        enforce: "pre",
-      use: {
+      use: [{
         loader: 'babel-loader',
         options: {
           cacheDirectory: true,
@@ -39,8 +39,10 @@ module.exports ={
           }],['@babel/preset-typescript']],
           plugins:["@babel/plugin-transform-runtime","@babel/plugin-syntax-jsx"],
         },
-      }
-    },
+      },
+      "ts-loader",
+    ],
+  },
     {
       test: /\.css$/i,
       use: ["style-loader", "css-loader",{
