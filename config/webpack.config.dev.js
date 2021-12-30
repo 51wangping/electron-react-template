@@ -4,6 +4,7 @@ const Dotenv = require('dotenv-webpack');
 const baseConfig =require('./webpack.config.base')
 const path =require('path')
 const WebpackBar = require('webpackbar');
+const webpack =require('webpack')
 module.exports= merge(baseConfig,{
     mode:'development',
     entry:['react-hot-loader/patch','./index.tsx'],
@@ -16,7 +17,7 @@ module.exports= merge(baseConfig,{
       hot:true,
       port: 9000,
     },
-    target:'electron-renderer',
+    target:'web',
     node: {
       __dirname: false,
       __filename: false
@@ -36,6 +37,18 @@ module.exports= merge(baseConfig,{
         template:path.resolve(__dirname,'../public/index.html')
       }),
       new WebpackBar({name:'渲染进程'}),
+      // new webpack.DllPlugin({
+      //   context: __dirname,
+      //   name: '[name]_[fullhash]',
+      //   path: path.join(__dirname, '../build/manifest.json'),
+      // }),
+      // new webpack.DllReferencePlugin({
+      //   context: __dirname,
+      //   manifest: require('../build/manifest.json'),
+      //   scope: 'xyz',
+      //   sourceType: 'commonjs2',
+      // })
+      
     ],
     optimization:{
       runtimeChunk: true

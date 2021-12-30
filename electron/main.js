@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const isDev = require('electron-is-dev');
-const path = require('path')
+const path = require('path');
+const { electron } = require('process');
 
 function createWindow () {
   console.log('创建主窗口    ' );
@@ -22,6 +23,7 @@ function createWindow () {
   isDev ?
   win.loadURL('http://localhost:9000')
   : win.loadURL(`file://${path.join(__dirname, '../build/index.html')}`)
+win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {

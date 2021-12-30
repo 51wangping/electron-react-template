@@ -2,12 +2,15 @@ const {merge} = require('webpack-merge');
 const Dotenv = require('dotenv-webpack');
 const CopyPlugin = require("copy-webpack-plugin");
 const {CleanWebpackPlugin} =require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const baseConfig =require('./webpack.config.base')
 const path = require('path');
 const webpack =require('webpack')
 const nodeExternals = require('webpack-node-externals')
 const WebpackBar = require('webpackbar');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 module.exports= merge(baseConfig,{ 
     mode:'production',
     performance: {
@@ -22,7 +25,28 @@ module.exports= merge(baseConfig,{
          generator:{
            filename:'static/[name].[ext]'
          }
-        }
+        },{
+          test: /\.css$/i,
+          use: [MiniCssExtractPlugin.loader,"style-loader", "css-loader",{
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: {
+                  plugins: [
+                    require('autoprefixer')({
+                      "overrideBrowserslist": [
+                        "> 1%",
+                        "last 7 versions",
+                        "not ie <= 8",
+                        "ios >= 8",
+                        "android >= 4.0"
+                      ]
+                    })
+                  ]
+                }
+              }
+            
+          }],
+        },
       ]
     },
     target:'electron-renderer',
@@ -43,6 +67,7 @@ module.exports= merge(baseConfig,{
         }},
       ],
     }),
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin({
       dry:false,
       cleanOnceBeforeBuildPatterns:['../build','../package'],
@@ -54,5 +79,9 @@ module.exports= merge(baseConfig,{
     new webpack.IgnorePlugin({
       resourceRegExp: new RegExp("^(fs|ipc|path)$"),
     })
-  ]
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin(),new CssMinimizerPlugin()],
+  },
   })
